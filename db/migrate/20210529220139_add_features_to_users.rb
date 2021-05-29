@@ -1,0 +1,5 @@
+class AddFeaturesToUsers < ActiveRecord::Migration[6.1]
+  def change
+    add_column :users, :features, :jsonb, default: {}
+  end
+end
