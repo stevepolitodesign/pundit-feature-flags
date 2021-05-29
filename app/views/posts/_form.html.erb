@@ -16,6 +16,13 @@
     <%= form.text_field :title %>
   </div>
 
+  <% if Feature::EnablePostMetaDescriptionPolicy.new(current_user, post).create? %>
+    <div class="field">
+      <%= form.label :meta_description %>
+      <%= form.text_area :meta_description %>
+    </div> 
+  <% end %>
+
   <div class="field">
     <%= form.label :user_id %>
     <%= form.text_field :user_id %>
