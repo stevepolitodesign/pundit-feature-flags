@@ -7,6 +7,8 @@
 one:
   email: $LABEL@example.com
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+  features:
+    enable_post_meta_description: true
 
 two:
   email: $LABEL@example.com
