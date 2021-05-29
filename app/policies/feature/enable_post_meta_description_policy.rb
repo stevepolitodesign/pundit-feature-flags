@@ -1,5 +1,5 @@
 class Feature::EnablePostMetaDescriptionPolicy < ApplicationPolicy
-  def ceate?
+  def create?
     user.present? && (user.enable_post_meta_description == true)
   end
 
