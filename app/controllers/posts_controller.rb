@@ -65,6 +65,8 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(permitted_attributes(@post))
+      params.require(:post).permit(
+        Feature::EnablePostMetaDescriptionPolicy.new(current_user, Post).permitted_attributes
+      )
     end
 end
