@@ -27,6 +27,11 @@ class AddFeaturesToUsers < ActiveRecord::Migration[6.1]
 end
 ```
 
+> **What's Going On Here?**
+> 
+> - In Step 2 we add a [JSONB Column](https://guides.rubyonrails.org/active_record_postgresql.html#json-and-jsonb) to our `users` table. This will allow us to store multiple features in one column, compared to making a ne column for each feature.
+> - In Step 3 we add `default: {}` simply to add a formatted deafult value to this column.
+
 4. Run the migrations.
 
 ```
