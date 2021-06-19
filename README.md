@@ -1,24 +1,44 @@
-# README
+# Use Pundit as a Rails Feature Flag System 
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Step 1: Initial Setup
 
-Things you may want to cover:
+This tutorial assumes you are using [devise](https://github.com/heartcombo/devise) and have a `User` model. However, you should still be able to follow along and impliment this pattern even if that's not the case. 
 
-* Ruby version
+1. Create a `Post` scaffold. 
 
-* System dependencies
+```
+rails g scaffold Post title:string user:references
+```
 
-* Configuration
+2. Add a `features` column to the `users` table by running the following command.
 
-* Database creation
+```
+rails g migration add_features_to_users features:jsonb 
+```
 
-* Database initialization
+3. Set a default value on the `features` column.
 
-* How to run the test suite
+```ruby
 
-* Services (job queues, cache servers, search engines, etc.)
+class AddFeaturesToUsers < ActiveRecord::Migration[6.1]
+  def change
+    add_column :users, :features, :jsonb, default: {}
+  end
+end
+```
 
-* Deployment instructions
+4. Run the migrations.
 
-* ...
+```
+rails db:migrate
+```
+
+5. Set features on `User` model. 
+
+```ruby
+class User < ApplicationRecord
+  ...  
+  FEATURES = %i[enable_post_meta_description].freeze
+  store :features, accessors: User::FEATURES
+end
+```
