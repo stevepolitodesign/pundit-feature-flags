@@ -7,7 +7,7 @@ This tutorial assumes you are using [devise](https://github.com/heartcombo/devis
 1. Create a `Post` scaffold. 
 
 ```
-rails g scaffold Post title:string user:references
+rails g scaffold Post title:string user:references enable_post_meta_description:text
 ```
 
 2. Add a `features` column to the `users` table by running the following command.
