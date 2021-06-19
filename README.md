@@ -29,7 +29,7 @@ end
 
 > **What's Going On Here?**
 > 
-> - In Step 2 we add a [JSONB Column](https://guides.rubyonrails.org/active_record_postgresql.html#json-and-jsonb) to our `users` table. This will allow us to store multiple features in one column, compared to making a ne column for each feature.
+> - In Step 2 we add a [JSONB Column](https://guides.rubyonrails.org/active_record_postgresql.html#json-and-jsonb) to our `users` table. This will allow us to store multiple features in one column, compared to making a column for each feature.
 > - In Step 3 we add `default: {}` simply to add a formatted deafult value to this column.
 
 4. Run the migrations.
@@ -47,3 +47,8 @@ class User < ApplicationRecord
   store :features, accessors: User::FEATURES
 end
 ```
+
+> **What's Going On Here?**
+> 
+> - In Step 5 we create a `FEATURES` constant that will store the names of our features as symbols. This is because we wrap the array in `%i`. We call `.freeze` to ensure this contant cannot be updated anywhere else.
+> - In Step 5 we use [ActiveRecord::Store](https://api.rubyonrails.org/classes/ActiveRecord/Store.html) to 
