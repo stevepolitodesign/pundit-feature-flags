@@ -51,4 +51,20 @@ end
 > **What's Going On Here?**
 > 
 > - We create a `FEATURES` constant that will store the names of our features as symbols by calling `%i` on the array. We call `.freeze` to ensure this constacnt cannot be updated anywhere else.
-> - We use [ActiveRecord::Store](https://api.rubyonrails.org/classes/ActiveRecord/Store.html) to interface with the `features` column. This will allow us to call `@user.enable_post_meta_description` instead of `user.features.enable_post_meta_description`. By passing `User::FEATURES` into the `accessors` we can continue to add new features in the `FEATURES` constant.
+> - We use [ActiveRecord::Store](https://api.rubyonrails.org/classes/ActiveRecord/Store.html) to interface with the `features` column. This will allow us to call `@user.enable_post_meta_description` instead of `user.features.enable_post_meta_description`. By passing `User::FEATURES` into the `accessors` parameter we can continue to add new features in the `FEATURES` constant.
+
+## Step 2: Install Pundit
+
+Next we'll need to install and configure [pundit](https://github.com/varvet/pundit).
+
+1. Install [pundit](https://github.com/varvet/pundit).
+
+```
+bundle add pundit
+```
+
+3. Generate the base pundit files.
+
+```
+rails g pundit:install
+```
