@@ -127,6 +127,12 @@ class PostsController < ApplicationController
       )
     end
 end
+```
+
+> **What's Going On Here?**
+> 
+> - We instanciate a new instance of the `Feature::EnablePostMetaDescriptionPolicy` policy class and pass in the `current_user` and `Post` per pundit's API. Then we call `permitted_attributes` to load the correct parameters based on whether the user has access to the `meta_description`.
+> - Note that we call `authenticate_user!` before all actions except `show` and `index` since the `Feature::EnablePostMetaDescriptionPolicy` relies on a user.
 
 2. Conditionally show the `meta_description` in the post form partial.
 
@@ -143,3 +149,8 @@ end
   ...
 <% end %>
 ```
+
+> **What's Going On Here?**
+>
+> - We wrap the `meta_description` field in a new instance of the `Feature::EnablePostMetaDescriptionPolicy` policy class. We call `create?` which returns `true` or `false` based on whether the user has access to the `meta_description`.
+
