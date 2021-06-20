@@ -76,3 +76,36 @@ class ApplicationController < ActionController::Base
   include Pundit
 end
 ```
+
+## Step 3: Build a Feature Flag Policy
+
+1. Generate a namespaced pundit policy.
+
+```
+rails g pundit:policy feature/enable_post_meta_description
+```
+
+2. Build the policy 
+
+```ruby
+class Feature::EnablePostMetaDescriptionPolicy < ApplicationPolicy
+  def ceate?
+    user.present? && (user.enable_post_meta_description == true)
+  end
+
+  def permitted_attributes
+    if user.enable_post_meta_description == true
+      [:title, :user_id, :meta_description]
+    else
+      [:title, :user_id]
+    end
+  end
+  ...
+end
+```
+
+> **What's Going On Here?**
+> 
+> - We generate a policy under the `feature` namespace. This is not required, but it helps keep things organized and will allow us to add new policies for new features later.
+> - We build a `ceate?` method that retuns `true` or `false` based on whether or not that user has the `enable_post_meta_description` feature set to true. We could have called the method `index?`, `new?`, `update?`, `edit?` or `destroy?` but `create?` makse the most sense in this context. We're building a policy that enables a user from creating a meta description on a post.  
+> - We used pundit's [permitted_attributes](https://github.com/varvet/pundit#strong-parameters) method to return an array of paramter's to use used in the `PostsController`. This will allow us to conditionally permit the `meta_description` paramter.
