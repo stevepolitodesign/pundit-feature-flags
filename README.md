@@ -109,3 +109,37 @@ end
 > - We generate a policy under the `feature` namespace. This is not required, but it helps keep things organized and will allow us to add new policies for new features later.
 > - We build a `ceate?` method that retuns `true` or `false` based on whether or not that user has the `enable_post_meta_description` feature set to true. We could have called the method `index?`, `new?`, `update?`, `edit?` or `destroy?` but `create?` makse the most sense in this context. We're building a policy that enables a user from creating a meta description on a post.  
 > - We used pundit's [permitted_attributes](https://github.com/varvet/pundit#strong-parameters) method to return an array of paramter's to use used in the `PostsController`. This will allow us to conditionally permit the `meta_description` paramter.
+
+## Step 4: Impliment the Feature Flag
+
+1. Update the `post_params` to hook into the `permitted_attributes`.
+
+```ruby
+class PostsController < ApplicationController
+  before_action :authenticate_user!, except: %i[ show index ] 
+  before_action :set_post, only: %i[ show edit update destroy ]
+
+  private
+    ...
+    def post_params
+      params.require(:post).permit(
+        Feature::EnablePostMetaDescriptionPolicy.new(current_user, Post).permitted_attributes
+      )
+    end
+end
+
+2. Conditionally show the `meta_description` in the post form partial.
+
+```html+erb
+# app/views/posts/_form.html.erb
+<%= form_with(model: post) do |form| %>
+  ...
+  <% if Feature::EnablePostMetaDescriptionPolicy.new(current_user, post).create? %>
+    <div class="field">
+      <%= form.label :meta_description %>
+      <%= form.text_area :meta_description %>
+    </div> 
+  <% end %>
+  ...
+<% end %>
+```
