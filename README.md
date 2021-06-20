@@ -112,7 +112,7 @@ end
 
 ## Step 4: Impliment the Feature Flag
 
-1. Update the `post_params` to hook into the `permitted_attributes`.
+1. Update the `post_params` to hook into the `permitted_attributes` method.
 
 ```ruby
 class PostsController < ApplicationController
