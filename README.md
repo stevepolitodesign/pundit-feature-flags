@@ -53,7 +53,7 @@ end
 > - We create a `FEATURES` constant that will store the names of our features as symbols by calling `%i` on the array. We call `.freeze` to ensure this constacnt cannot be updated anywhere else.
 > - We use [ActiveRecord::Store](https://api.rubyonrails.org/classes/ActiveRecord/Store.html) to interface with the `features` column. This will allow us to call `@user.enable_post_meta_description` instead of `user.features.enable_post_meta_description`. By passing `User::FEATURES` into the `accessors` parameter we can continue to add new features in the `FEATURES` constant.
 
-## Step 2: Install Pundit
+## Step 2: Install Pundit and Build Policy
 
 Next we'll need to install and configure [pundit](https://github.com/varvet/pundit).
 
@@ -63,8 +63,16 @@ Next we'll need to install and configure [pundit](https://github.com/varvet/pund
 bundle add pundit
 ```
 
-3. Generate the base pundit files.
+2. Generate the base pundit files.
 
 ```
 rails g pundit:install
+```
+
+3. Include pundit in the `ApplicationController`
+
+```ruby
+class ApplicationController < ActionController::Base
+  include Pundit
+end
 ```
