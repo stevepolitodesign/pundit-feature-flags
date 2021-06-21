@@ -1,10 +1,10 @@
 # Use Pundit as a Rails Feature Flag System
 
-In this tutorial I'll show you how to create a feature flag system in Rails using [pundit](https://github.com/varvet/pundit) and a `features` column on the `users` table.
+In this tutorial, I'll show you how to create a feature flag system in Rails using [pundit](https://github.com/varvet/pundit) and a `features` column on the `users` table.
 
 ## Step 1: Initial Setup
 
-This tutorial assumes you are using [devise](https://github.com/heartcombo/devise) and have a `User` model. However, you should still be able to follow along and impliment this pattern even if that's not the case. 
+This tutorial assumes you are using [devise](https://github.com/heartcombo/devise) and have a `User` model. However, you should still be able to follow along and implement this pattern even if that's not the case. 
 
 1. Create a `Post` scaffold. 
 
@@ -32,7 +32,7 @@ end
 > **What's Going On Here?**
 > 
 > - We add a [JSONB Column](https://guides.rubyonrails.org/active_record_postgresql.html#json-and-jsonb) to our `users` table. This will allow us to store multiple features in one column, compared to making a column for each feature.
-> - We add `default: {}` simply to add a formatted deafult value to this column.
+> - We add `default: {}` simply to add a formatted default value to this column.
 
 4. Run the migrations.
 
@@ -52,10 +52,10 @@ end
 
 > **What's Going On Here?**
 > 
-> - We create a `FEATURES` constant that will store the names of our features as symbols by calling `%i` on the array. We call `.freeze` to ensure this constacnt cannot be updated anywhere else.
+> - We create a `FEATURES` constant that will store the names of our features as symbols by calling `%i` on the array. We call `.freeze` to ensure this constant cannot be updated anywhere else.
 > - We use [ActiveRecord::Store](https://api.rubyonrails.org/classes/ActiveRecord/Store.html) to interface with the `features` column. This will allow us to call `@user.enable_post_meta_description` instead of `user.features.enable_post_meta_description`. By passing `User::FEATURES` into the `accessors` parameter we can continue to add new features in the `FEATURES` constant.
 
-Setting a `fearures` column on the `users` table will allow us to enable/disable feaures on a per user basis.
+Setting a `features` column on the `users` table will allow us to enable/disable features on a per-user basis.
 
 6. Enable the `enable_post_meta_description` for a user. That way you have something to test.
 
@@ -65,7 +65,7 @@ User.last.update(enable_post_meta_description: true)
 
 ## Step 2: Install Pundit and Build a Policy
 
-Next we'll need to install and configure [pundit](https://github.com/varvet/pundit).
+Next, we'll need to install and configure [pundit](https://github.com/varvet/pundit).
 
 1. Install [pundit](https://github.com/varvet/pundit).
 
@@ -117,10 +117,10 @@ end
 > **What's Going On Here?**
 > 
 > - We generate a policy under the `feature` namespace. This is not required, but it helps keep things organized and will allow us to add new policies for new features later.
-> - We build a `ceate?` method that retuns `true` or `false` based on whether or not that user has the `enable_post_meta_description` feature set to true. We could have called the method `index?`, `new?`, `update?`, `edit?` or `destroy?` but `create?` makse the most sense in this context. We're building a policy that enables a user from creating a meta description on a post.  
-> - We used pundit's [permitted_attributes](https://github.com/varvet/pundit#strong-parameters) method to return an array of paramter's to use used in the `PostsController`. This will allow us to conditionally permit the `meta_description` paramter.
+> - We build a `ceate?` method that returns `true` or `false` based on whether or not that user has the `enable_post_meta_description` feature set to true. We could have called the method `index?`, `new?`, `update?`, `edit?` or `destroy?` but `create?` makes the most sense in this context. We're building a policy that enables a user from creating a meta description on a post.  
+> - We used pundit's [permitted_attributes](https://github.com/varvet/pundit#strong-parameters) method to return an array of paramters to use used in the `PostsController`. This will allow us to conditionally permit the `meta_description` parameter.
 
-## Step 4: Impliment the Feature Flag
+## Step 4: Implement the Feature Flag
 
 1. Update the `post_params` to hook into the `permitted_attributes` method.
 
@@ -141,7 +141,7 @@ end
 
 > **What's Going On Here?**
 > 
-> - We instanciate a new instance of the `Feature::EnablePostMetaDescriptionPolicy` policy class and pass in the `current_user` and `Post` per pundit's API. Then we call `permitted_attributes` to load the correct parameters based on whether the user has access to the `meta_description`.
+> - We instantiate a new instance of the `Feature::EnablePostMetaDescriptionPolicy` policy class and pass in the `current_user` and `Post` per pundit's API. Then we call `permitted_attributes` to load the correct parameters based on whether the user has access to the `meta_description`.
 > - Note that we call `authenticate_user!` before all actions except `show` and `index` since the `Feature::EnablePostMetaDescriptionPolicy` relies on a user.
 
 2. Conditionally show the `meta_description` in the post form partial.
