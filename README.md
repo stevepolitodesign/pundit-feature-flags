@@ -117,8 +117,8 @@ end
 > **What's Going On Here?**
 > 
 > - We generate a policy under the `feature` namespace. This is not required, but it helps keep things organized and will allow us to add new policies for new features later. We also name this policy to match the name of the feature in the `User` model.
-> - We build a `ceate?` method that returns `true` or `false` based on whether or not that user has the `enable_post_meta_description` feature set to true. We could have called the method `index?`, `new?`, `update?`, `edit?` or `destroy?` but `create?` makes the most sense in this context. We're building a policy that enables a user from creating a meta description on a post.  
-> - We used pundit's [permitted_attributes](https://github.com/varvet/pundit#strong-parameters) method to return an array of paramters to use used in the `PostsController`. This will allow us to conditionally permit the `meta_description` parameter.
+> - We build a `ceate?` method that returns `true` or `false` based on whether or not that user has the `enable_post_meta_description` feature set to true. We could have called the method `index?`, `new?`, `update?`, `edit?` or `destroy?` but `create?` makes the most sense in this context. We're building a policy that enables a user to **create** a meta description on a post.  
+> - We used pundit's [permitted_attributes](https://github.com/varvet/pundit#strong-parameters) method to return an array of paramters to be used in the `PostsController`. This will allow us to conditionally permit the `meta_description` parameter.
 
 ## Step 4: Implement the Feature Flag
 
@@ -164,3 +164,6 @@ end
 >
 > - We wrap the `meta_description` field in a new instance of the `Feature::EnablePostMetaDescriptionPolicy` policy class. We call `create?` which returns `true` or `false` based on whether the user has access to the `meta_description`.
 
+---
+
+Did you like this post? [Follow me on Twitter](https://twitter.com/stevepolitodsgn) to get even more tips.
