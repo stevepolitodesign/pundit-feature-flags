@@ -52,7 +52,7 @@ end
 
 > **What's Going On Here?**
 > 
-> - We create a `FEATURES` constant that will store the names of our features as symbols by calling `%i` on the array. We call `.freeze` to ensure this constant cannot be updated anywhere else. We also name this policy to match the name of the feature in the `User` model.
+> - We create a `FEATURES` constant that will store the names of our features as symbols by calling `%i` on the array. We call `.freeze` to ensure this constant cannot be updated anywhere else.
 > - We use [ActiveRecord::Store](https://api.rubyonrails.org/classes/ActiveRecord/Store.html) to interface with the `features` column. This will allow us to call `@user.enable_post_meta_description` instead of `user.features.enable_post_meta_description`. By passing `User::FEATURES` into the `accessors` parameter we can continue to add new features in the `FEATURES` constant.
 
 Setting a `features` column on the `users` table will allow us to enable/disable features on a per-user basis.
@@ -116,7 +116,7 @@ end
 
 > **What's Going On Here?**
 > 
-> - We generate a policy under the `feature` namespace. This is not required, but it helps keep things organized and will allow us to add new policies for new features later.
+> - We generate a policy under the `feature` namespace. This is not required, but it helps keep things organized and will allow us to add new policies for new features later. We also name this policy to match the name of the feature in the `User` model.
 > - We build a `ceate?` method that returns `true` or `false` based on whether or not that user has the `enable_post_meta_description` feature set to true. We could have called the method `index?`, `new?`, `update?`, `edit?` or `destroy?` but `create?` makes the most sense in this context. We're building a policy that enables a user from creating a meta description on a post.  
 > - We used pundit's [permitted_attributes](https://github.com/varvet/pundit#strong-parameters) method to return an array of paramters to use used in the `PostsController`. This will allow us to conditionally permit the `meta_description` parameter.
 
