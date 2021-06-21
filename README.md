@@ -52,7 +52,7 @@ end
 
 > **What's Going On Here?**
 > 
-> - We create a `FEATURES` constant that will store the names of our features as symbols by calling `%i` on the array. We call `.freeze` to ensure this constant cannot be updated anywhere else.
+> - We create a `FEATURES` constant that will store the names of our features as symbols by calling `%i` on the array. We call `.freeze` to ensure this constant cannot be updated anywhere else. We also name this policy to match the name of the feature in the `User` model.
 > - We use [ActiveRecord::Store](https://api.rubyonrails.org/classes/ActiveRecord/Store.html) to interface with the `features` column. This will allow us to call `@user.enable_post_meta_description` instead of `user.features.enable_post_meta_description`. By passing `User::FEATURES` into the `accessors` parameter we can continue to add new features in the `FEATURES` constant.
 
 Setting a `features` column on the `users` table will allow us to enable/disable features on a per-user basis.
