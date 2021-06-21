@@ -1,4 +1,6 @@
-# Use Pundit as a Rails Feature Flag System 
+# Use Pundit as a Rails Feature Flag System
+
+In this tutorial I'll show you how to create a feature flag system in Rails using [pundit](https://github.com/varvet/pundit) and a `features` column on the `users` table.
 
 ## Step 1: Initial Setup
 
@@ -52,6 +54,14 @@ end
 > 
 > - We create a `FEATURES` constant that will store the names of our features as symbols by calling `%i` on the array. We call `.freeze` to ensure this constacnt cannot be updated anywhere else.
 > - We use [ActiveRecord::Store](https://api.rubyonrails.org/classes/ActiveRecord/Store.html) to interface with the `features` column. This will allow us to call `@user.enable_post_meta_description` instead of `user.features.enable_post_meta_description`. By passing `User::FEATURES` into the `accessors` parameter we can continue to add new features in the `FEATURES` constant.
+
+Setting a `fearures` column on the `users` table will allow us to enable/disable feaures on a per user basis.
+
+6. Enable the `enable_post_meta_description` for a user. That way you have something to test.
+
+```
+User.last.update(enable_post_meta_description: true)
+```
 
 ## Step 2: Install Pundit and Build a Policy
 
